@@ -1,3 +1,8 @@
+/**
+ * We'll define a call back to process images from a buffer
+ * @callback imageHandler 
+ */
+
 const express = require('express');
 const app = express();
 const drone = require("ar-drone");
@@ -22,6 +27,9 @@ app.get('/land', function(req, res) {
     landDrone();
 });
 
+/**
+ * API call to begin streaming images from the drone every 2 seconds
+ */
 app.get('/drone-images', function(req, res) {
     var lastImageRetrieval = Date.now()
     console.log("Gonna get me some drone images...");
@@ -35,6 +43,8 @@ app.get('/drone-images', function(req, res) {
                     console.error('Image file write error: ' + err.message);
                 } else {
                     console.log('New drone image written')
+                    analyzeImage();
+                    console.log('Image submitted for analysis');
                 }
             });
         }   
@@ -55,6 +65,16 @@ function landDrone() {
     client.land();
 }
 
+function analyzeImage() {
+    // Placeholder to send image to a recognization API and see what we get
+
+    // Prolly need to think through a return value that continues some fun stuff we can react to...
+}
+
+/**
+ * Initiate the image streaming from the drone
+ * @param {imageHandler} imageHandler - callback that takes in a buffer
+ */
 function startImageStreaming(imageHandler) {
     var imageStream = client.getPngStream();
     imageStream
