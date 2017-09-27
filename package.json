@@ -1,0 +1,20 @@
+{
+  "name": "ar-drone-face-finder",
+  "version": "0.0.1",
+  "description": "Web application to interact with Parrot AR 2.0 Drone and face recognition to find people in flight",
+  "main": "web-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "drone",
+    "AI",
+    "parrot"
+  ],
+  "author": "Erik Brown",
+  "license": "MIT",
+  "dependencies": {
+    "ar-drone": "git://github.com/felixge/node-ar-drone.git",
+    "express": "^4.15.5"
+  }
+}
