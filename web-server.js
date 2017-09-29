@@ -10,6 +10,7 @@ const client = drone.createClient();
 const fs = require('fs');
 
 const minImageInterval = 2000;
+var lastImageRetrieval = 0;
 
 app.use('/', express.static('public'));
 
@@ -20,21 +21,23 @@ app.get('/', function(req, res) {
 app.get('/launch', function(req, res) {
     console.log('Launching drone')
     launchDrone();
+    res.sendStatus(200);
 });
 
 app.get('/land', function(req, res) {
     console.log('Landing drone')
     landDrone();
+    res.sendStatus(200);
 });
 
 /**
  * API call to begin streaming images from the drone every 2 seconds
  */
 app.get('/drone-images', function(req, res) {
-    var lastImageRetrieval = Date.now()
+    var currentRetrieval = Date.now()
     console.log("Gonna get me some drone images...");
     startImageStreaming(function(buffer) {
-        var lastImageRetrieval = Date.now(); 
+        var currentRetrieval = Date.now(); 
         if ((currentRetrieval - lastImageRetrieval) > minImageInterval) {
             console.log("GOT AN IMAGE!!")
             lastImageRetrieval = currentRetrieval;
@@ -49,6 +52,7 @@ app.get('/drone-images', function(req, res) {
             });
         }   
     });
+    res.sendStatus(200);
 });
 
 app.listen(3000, function() {
@@ -77,9 +81,11 @@ function analyzeImage() {
  */
 function startImageStreaming(imageHandler) {
     var imageStream = client.getPngStream();
+    console.log('Image streaming started');
     imageStream
         .on('error', console.log)
         .on('data', function(imageBuffer) {
+            console.log('Image data event fired');
             imageHandler(imageBuffer);
         });
 }
