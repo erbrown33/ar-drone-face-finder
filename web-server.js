@@ -9,7 +9,7 @@ const drone = require("ar-drone");
 const client = drone.createClient();
 const fs = require('fs');
 
-const minImageInterval = 2000;
+const minImageInterval = 1500;
 var lastImageRetrieval = 0;
 
 app.use('/', express.static('public'));

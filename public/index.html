@@ -1,8 +1,20 @@
 <html>
     <head>
         <title>WMP Drone Face Finder</title>
+        <script type="text/javascript">
+        var imgCount = 0;
+        function updateDroneImage() {
+            var droneImg = document.getElementById('drone-img');
+            droneImg.src = "http://localhost:3000/droneImage.png?t=" + imgCount++;
+        }
+
+        const imageTimer = setInterval(updateDroneImage, 1000);
+        </script>
     </head>
     <body>
         Drone stuff goes here
+        <div id='img-container'>
+            <img id='drone-img' src='droneImage.png'/>
+        </div>
     </body>
 </html>
