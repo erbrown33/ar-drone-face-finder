@@ -8,11 +8,25 @@
             droneImg.src = "http://localhost:3000/droneImage.png?t=" + imgCount++;
         }
 
+        function callService(serviceName) {
+            var request = new XMLHttpRequest();
+            request.open("GET", "http://localhost:3000/" + serviceName);
+            request.setRequestHeader("Content-Type", "application/json");
+            request.send();
+            var response = JSON.parse(request.responseText);
+            console.log('response: ' + response);
+        }
+
         const imageTimer = setInterval(updateDroneImage, 1000);
         </script>
     </head>
     <body>
         Drone stuff goes here
+        <div id='drone-control-container'>
+            <button id='btn-launch' onclick="callService('launch')">Launch Drone</button>
+            <button id='btn-land' onclick="callService('land')">Land Drone</button>
+            <button id='btn-stream-images' onclick="callService('drone-images')")>Start Streaming Images</button>
+        </div>
         <div id='img-container'>
             <img id='drone-img' src='droneImage.png'/>
         </div>

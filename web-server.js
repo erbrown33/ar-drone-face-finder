@@ -75,6 +75,10 @@ function analyzeImage() {
     // Prolly need to think through a return value that continues some fun stuff we can react to...
 }
 
+function announcePersonFound(name) {
+    // Maybe some text-to-speech stuff and funny logic depending on who we find
+}
+
 /**
  * Initiate the image streaming from the drone
  * @param {imageHandler} imageHandler - callback that takes in a buffer
