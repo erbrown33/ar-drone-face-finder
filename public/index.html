@@ -13,12 +13,27 @@
             request.open("GET", "http://localhost:3000/" + serviceName);
             request.setRequestHeader("Content-Type", "application/json");
             request.send();
-            var response = JSON.parse(request.responseText);
-            console.log('response: ' + response);
+            request.addEventListener("load", function() {
+                if (request.status < 400)
+                {
+                    console.log("testttt")
+                    console.log(request);
+                    if(request.responseText == 'Layok')
+                    {
+                        responsiveVoice.speak("Craig Laylok is the worst");
+                    }
+                }        
+                
+            });
+        }
+
+        function Identify(serviceName) {            
+            var text = callService("Identify");  
         }
 
         const imageTimer = setInterval(updateDroneImage, 1000);
         </script>
+        <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
     </head>
     <body>
         Drone stuff goes here
@@ -26,6 +41,7 @@
             <button id='btn-launch' onclick="callService('launch')">Launch Drone</button>
             <button id='btn-land' onclick="callService('land')">Land Drone</button>
             <button id='btn-stream-images' onclick="callService('drone-images')")>Start Streaming Images</button>
+            <button id='btn-identify'onclick="Identify()">Identify Person</button>
         </div>
         <div id='img-container'>
             <img id='drone-img' src='droneImage.png'/>

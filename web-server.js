@@ -12,6 +12,7 @@ const fs = require('fs');
 const droneFilePath = __dirname + '/public/droneImage.png';
 const minImageInterval = 1500;
 var lastImageRetrieval = 0;
+var foundName = "None";
 
 app.use('/', express.static('public'));
 
@@ -31,9 +32,17 @@ app.get('/land', function(req, res) {
     res.sendStatus(200);
 });
 
+app.get('/identify', function(req, res) {
+    console.log('Identify')
+       
+    res.set('Content-Type', 'text/plain');
+    res.write('Layok');   
+    res.end();    
+   
+});
+
 app.get('/analyze-current-image', function(req, res) {
-    analyzeImage();
-    res.sendStatus(202);
+    
 })
 
 /**
@@ -42,22 +51,6 @@ app.get('/analyze-current-image', function(req, res) {
 app.get('/drone-images', function(req, res) {
     var currentRetrieval = Date.now()
     console.log("Gonna get me some drone images...");
-    startImageStreaming(function(buffer) {
-        var currentRetrieval = Date.now(); 
-        if ((currentRetrieval - lastImageRetrieval) > minImageInterval) {
-            console.log("GOT AN IMAGE!!")
-            lastImageRetrieval = currentRetrieval;
-            fs.writeFile(droneFilePath, buffer, function(err) {
-                if (err) {
-                    console.error('Image file write error: ' + err.message);
-                } else {
-                    console.log('New drone image written')
-                    analyzeImage();
-                    console.log('Image submitted for analysis');
-                }
-            });
-        }   
-    });
     res.sendStatus(200);
 });
 
@@ -75,14 +68,8 @@ function landDrone() {
     droneClient.land();
 }
 
-function analyzeImage() {
-    // Placeholder to send image to a recognization API and see what we get
-    
-    // Prolly need to think through a return value that continues some fun stuff we can react to...
-}
-
 function announcePersonFound(name) {
-    // Maybe some text-to-speech stuff and funny logic depending on who we find
+    console.log('made it to the server');
 }
 
 /**
